@@ -17,7 +17,10 @@ const bodyParser = require('body-parser')
 
 app.use(express.static('public'))
 
-app.get(__dirname + '/views/index.html')
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/index.html')
+})
+
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
