@@ -12,7 +12,7 @@ body {
     margin-top: 30px;
     position: relative;
     text-align: center;
-    max-width: 600px;
+    max-width: 800px;
     margin: 10px auto;
 }
 
@@ -34,4 +34,14 @@ ul {
     right: 5px;
     bottom: 0;
     font-size: 12px;
+}
+
+input {
+    width: 250px;
+    padding: 6px;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 75%;
 }
