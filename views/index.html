@@ -21,9 +21,12 @@
 
     <h4>Create shortened URL by submitting URL below</h4>
     example: <code>POST [project-url]/api/shorturl/new - https://www.google.com</code>
+    <p>
     <form id='url-form' method="POST" action ='/api/shorturl/new'>
-        <input type="text" name='url' />
-    </form>
+        <label for='url-form'>Enter URL here </label>
+        <input type="text" name='url' placeholder="http://www.google.com"/>
+        <button type='submit'>POST URL</button>
+    </form></p>
 
     </div>
     <div class="footer">

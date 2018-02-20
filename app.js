@@ -15,7 +15,7 @@ const cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(express.static('public'));
 
@@ -29,11 +29,19 @@ const urlSchema = new schema({
 });
 const Url = mongoose.model('Url', urlSchema);
 
-//parse url to get the url the user wishes to shorten
-app.get('/api/shorturl/new/:original_url?', (req, res) => {
-    //test to see if url is valid, if not, send error JSON
-    //if so, do the work
+app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
+    console.log(req.params.url);
+    next();
+})
 
+//parse url to get the url the user wishes to shorten
+app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
+    //test to see if url is valid, if not, send error JSON
+    console.log('got a post request');
+    //if so, do the work
+    console.log(req.params.newUrl);
+    // res.send('welcome, ' + req.body)
+    next();
 })
 
 
