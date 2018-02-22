@@ -35,13 +35,15 @@ const urlSchema = new schema({
 });
 const Url = mongoose.model('Url', urlSchema);
 
-var testLookup = dns.lookup('dns.com', (err, address, family) => {
-    console.log(address);
-    return address ? true : false;
-});
+// function testLookup(add) = dns.lookup('dns.com', (err, address, family) => {
+//     console.log(address);
+//     return address ? true : false;
+// });
 
 let validAddress = ((addressToValidate) => {
+    // console.log(addressToValidate);
     return urlRegex.test(addressToValidate) && dns.lookup(addressToValidate, (err, address, family) => {
+        //console.log(address);
         return address ? true : false;
     })});
 
@@ -58,14 +60,15 @@ app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
 //parse url to get the url the user wishes to shorten
 app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
     if (!req.body) return res.sendStatus(400);
-    let enteredUrl = req.params.url;
-    if(!urlRegex.test(req.params.url)) {
-        res.send({ 'error' : "invalid URL" });
-    }
+    let enteredUrl = req.body.url;
+
     //test to see if url is valid, if not, send error JSON
-    console.log('got a post request');
+    if(!validAddress(enteredUrl)) {
+        res.send({ 'error' : "invalid URL" })
+    }
     //if so, do the work
-    console.log(req.body.url);
+    else res.send({'url': enteredUrl});
+    console.log('success');
     next();
 })
 
