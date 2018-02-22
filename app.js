@@ -1,29 +1,28 @@
 const express = require('express');
-const app = express();
-app.use(express.static('public'));
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const dns = require('dns');
+const cors = require('cors');
+
 const PORT = process.env.PORT || 8000;
+//regex to test if the submitted url is valid
+const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
 //to validate entered addresses
-const dns = require('dns');
-
-const dotenv = require('dotenv');
 dotenv.config();
 
-const mongoose = require('mongoose');
+const app = express();
+app.use(express.static('public'));
 
 mongoose.connect(process.env.MONGO_URI);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 const schema = mongoose.Schema;
 
-const cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));
 
-const bodyParser = require('body-parser');
 let urlEncodedParser = bodyParser.urlencoded({ extended: false });
-
-//regex to test if the submitted url is valid
-const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
 //counter to use for shortened URL
 let count = 1001;
@@ -49,7 +48,7 @@ let validAddress = ((addressToValidate) => {
 //function to create a new database entry and short url
 let createNewShortUrl = function(longUrl, done) {
     let newUrlHolder = new Url({original_url: longUrl, short_url: 'test'});
-    count++;
+    count++;  //need another method
     newUrlHolder.save((err, data) => {
         if(err) done(err);
         done(null, data);
@@ -87,7 +86,6 @@ app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
     }
     next();
 })
-
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
