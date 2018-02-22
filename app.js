@@ -35,11 +35,6 @@ const urlSchema = new schema({
 });
 const Url = mongoose.model('Url', urlSchema);
 
-// function testLookup(add) = dns.lookup('dns.com', (err, address, family) => {
-//     console.log(address);
-//     return address ? true : false;
-// });
-
 let validAddress = ((addressToValidate) => {
     // console.log(addressToValidate);
     return urlRegex.test(addressToValidate) && dns.lookup(addressToValidate, (err, address, family) => {
@@ -55,7 +50,6 @@ app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     else res.send({'url': req.params.url});
     next();
 });
-
 
 //parse url to get the url the user wishes to shorten
 app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
