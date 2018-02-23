@@ -25,7 +25,7 @@ app.use(cors({optionsSuccessStatus: 200}));
 let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 //counter to use for shortened URL
-let count = 1001;
+let randomNum = Math.floor(Math.random() * 9999);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
@@ -47,8 +47,8 @@ let validAddress = ((addressToValidate) => {
 
 //function to create a new database entry and short url
 let createNewShortUrl = function(longUrl, done) {
-    let newUrlHolder = new Url({original_url: longUrl, short_url: 'test'});
-    count++;  //need another method
+    let newUrlHolder = new Url({original_url: longUrl, short_url: randomNum});
+    ++randomNum;
     newUrlHolder.save((err, data) => {
         if(err) done(err);
         done(null, data);
