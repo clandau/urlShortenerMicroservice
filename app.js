@@ -55,7 +55,7 @@ let createNewShortUrl = function(longUrl, done) {
 };
 
 //function to test createNewShortUrl function (works)
-// createNewShortUrl('http://www.google.com', (err, data) => {
+// createNewShortUrl('http://www.freecodecamp.com', (err, data) => {
 //     console.log(err ? err : data);
 // });
 
@@ -94,6 +94,12 @@ let findShortUrl = function(urlString, done) {
         done(null, url);  
       });
     };
+
+//test findShortUrl function
+findShortUrl('2728', (err, data) => {
+    console.log(err ? err : data);
+});
+
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
