@@ -33,13 +33,12 @@ app.get('/', (req, res) => {
 
 const urlSchema = new schema({
     original_url: {type: String, required: true},
-    short_url: {type: String, required: true}
+    short_url: {type: String, required: true, unique: true}
 });
 const Url = mongoose.model('Url', urlSchema);
 
 //function to make sure that the address to shorten is valid
 let validAddress = ((addressToValidate) => {
-    // console.log(addressToValidate);
     return urlRegex.test(addressToValidate) && dns.lookup(addressToValidate, (err, address, family) => {
         //console.log(address);
         return address ? true : false;
@@ -56,9 +55,9 @@ let createNewShortUrl = function(longUrl, done) {
 };
 
 //function to test createNewShortUrl function (works)
-createNewShortUrl('http://www.google.com', (err, data) => {
-    console.log(err ? err : data);
-});
+// createNewShortUrl('http://www.google.com', (err, data) => {
+//     console.log(err ? err : data);
+// });
 
 app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     let enteredUrl = req.params.url;
@@ -85,7 +84,16 @@ app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
         console.log('success');
     }
     next();
-})
+});
+
+//function to check for short url in database
+let findShortUrl = function(urlString, done) {
+    Url.findOne({ 'short_url': urlString }, 'original_url short_url', function (err, url) {
+        if (err) done(err);
+        console.log('%s already exists and points to %s', url.short_url, url.original_url);
+        done(null, url);  
+      });
+    };
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
