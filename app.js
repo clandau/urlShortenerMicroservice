@@ -50,7 +50,7 @@ let createNewShortUrl = function(longUrl, done) {
     ++randomNum;
     newUrlHolder.save((err, data) => {
         if(err) done(err);
-        done(null, data);
+        else done(null, data);
     });
 };
 
@@ -64,8 +64,14 @@ app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     if(!validAddress(enteredUrl)) {
         res.send({ 'error' : "invalid URL" })
     }
-    else res.send({'url': req.params.url});
-    next();
+    else {
+        createNewShortUrl(enteredUrl, (err, data) => {
+            if(data) {
+            res.send({'original_url': enteredUrl, 'short_url': data.short_url});
+            }
+            if(err) console.log(err);
+        });
+    }
 });
 
 //parse url to get the url the user wishes to shorten
@@ -80,10 +86,13 @@ app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
     //if so, do the work
     else {
         //create new url, post to DB, send to user
-        res.send({'url': enteredUrl});
-        console.log('success');
+        createNewShortUrl(enteredUrl, (err, data) => {
+            if(data) {
+            res.send({'original_url': enteredUrl, 'short_url': data.short_url});
+            }
+            if(err) console.log(err);
+        });
     }
-    next();
 });
 
 //function to check for short url in database
@@ -91,7 +100,6 @@ let findShortUrl = function(urlString, done) {
     Url.findOne({ 'short_url': urlString }, 'original_url short_url', function (err, url) {
         if (err) done(err);
         if(url === null) {
-            // console.log('url not found');
             done(null, url);
         }
         else {
@@ -102,6 +110,7 @@ let findShortUrl = function(urlString, done) {
     };
 
 //identify when someone's visiting a short url and redirect them to the requested long url site
+//this shouldnt fire when new is fired. need to figure that out
 app.get('/api/shorturl/:shortUrl', (req, res, next) => {
     let urlShort = req.params.shortUrl;
     let originalUrl;
