@@ -90,16 +90,30 @@ app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
 let findShortUrl = function(urlString, done) {
     Url.findOne({ 'short_url': urlString }, 'original_url short_url', function (err, url) {
         if (err) done(err);
-        console.log('%s already exists and points to %s', url.short_url, url.original_url);
-        done(null, url);  
+        if(url === null) {
+            // console.log('url not found');
+            done(null, url);
+        }
+        else {
+        let longUrl = url.original_url;
+        return done(null, longUrl);  
+        }
       });
     };
 
-//test findShortUrl function
-findShortUrl('2728', (err, data) => {
-    console.log(err ? err : data);
-});
-
+//identify when someone's visiting a short url and redirect them to the requested long url site
+app.get('/api/shorturl/:shortUrl', (req, res, next) => {
+    let urlShort = req.params.shortUrl;
+    let originalUrl;
+    findShortUrl(urlShort, (err, data) => {
+        if(err) console.log(err);
+        else {
+        let longUrl = data;
+        console.log('this one ', longUrl);
+        res.redirect(longUrl);
+        }
+    });
+})
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
