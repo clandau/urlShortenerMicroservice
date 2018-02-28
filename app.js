@@ -54,11 +54,6 @@ let createNewShortUrl = function(longUrl, done) {
     });
 };
 
-//function to test createNewShortUrl function (works)
-// createNewShortUrl('http://www.freecodecamp.com', (err, data) => {
-//     console.log(err ? err : data);
-// });
-
 app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     let enteredUrl = req.params.url;
     if(!validAddress(enteredUrl)) {
@@ -72,6 +67,21 @@ app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
             if(err) console.log(err);
         });
     }
+});
+
+//identify when someone's visiting a short url and redirect them to the requested long url site
+app.get('/api/shorturl/:shortUrl', (req, res, next) => {
+        // if(req.params.shortUrl !=='new') {
+        let urlShort = req.params.shortUrl;
+        let originalUrl;
+        findShortUrl(urlShort, (err, data) => {
+            if(err) console.log(err);
+            else {
+            let longUrl = data;
+            res.redirect(longUrl);
+            }
+        });
+// }
 });
 
 //parse url to get the url the user wishes to shorten
@@ -108,21 +118,6 @@ let findShortUrl = function(urlString, done) {
         }
       });
     };
-
-//identify when someone's visiting a short url and redirect them to the requested long url site
-//this shouldnt fire when new is fired. need to figure that out
-app.get('/api/shorturl/:shortUrl', (req, res, next) => {
-    let urlShort = req.params.shortUrl;
-    let originalUrl;
-    findShortUrl(urlShort, (err, data) => {
-        if(err) console.log(err);
-        else {
-        let longUrl = data;
-        console.log('this one ', longUrl);
-        res.redirect(longUrl);
-        }
-    });
-})
 
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
