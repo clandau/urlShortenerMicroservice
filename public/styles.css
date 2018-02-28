@@ -3,6 +3,7 @@ body {
     font-size: 18px;
     color: black;
     background-color: #f4f4eb;
+    background-color: #f5ffe6;
     line-height: 1.4em;
     padding-top: 20px;
 }
@@ -23,6 +24,14 @@ code {
     color: black;
     background-color: #fff;
   }
+
+#form-div {
+    background-color: #adff2f;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    padding-top: 15px;
+}
 
 ul {
     list-style-type: none;

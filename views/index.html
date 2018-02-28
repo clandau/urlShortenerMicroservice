@@ -8,24 +8,26 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
 </head>
+
 <body>
     <div class = 'container'>
         <h2>API: URL Shortener Microservice</h2>
         <h3></h3>
 
-    <h4>Create a shortened URL, either by submitting the URL in the form below or by visiting the API endpoint at <code>GET [project-url]/api/shorturl/new/</code></h4>
+    <h4>Create a shortened URL, either by submitting the URL in the form below or by visiting the API endpoint at: </h4><code>GET [project-url]/api/shorturl/new/</code>
     <p>
-    Example: <code>[project-url]/api/shorturl/new/https://www.google.com</code><br>
-    Example Response: <code>{"original_url":"www.google.com","short_url":1111}</code>
+    Example: <br><code>[project-url]/api/shorturl/new/https://www.google.com</code><br>
+    Response: <br><code>{"original_url":"www.google.com","short_url":1111}</code>
 </p>
-    Example: <code>POST [project-url]/api/shorturl/new - https://www.google.com</code>
+    Example: <br><code>POST [project-url]/api/shorturl/new - https://www.google.com</code>
     <p>
+    <div id='form-div'> 
     <form id='url-form' method="POST" action ='/api/shorturl/new'>
-        <label for='url-form'>Enter URL here </label>
+        <label for='url-form'>Enter URL here: </label>
         <input type="text" name='url' placeholder="http://www.google.com"/>
         <button type='submit'>POST URL</button>
     </form></p>
-
+</div>
     <h4>Example Usage:</h4>
     By visiting the output short URL:
     <code>[project-url]/api/shorturl/4121</code> 
@@ -34,7 +36,7 @@
     <code>http://www.freecodecamp.com</code>
 </p>
 
-    </div>
+</div>
     <div class="footer">
         <p style="text-align:left;">Created by Courtney Landau
             <span style="float:right;">2018</span>
