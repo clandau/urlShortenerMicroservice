@@ -2,6 +2,8 @@
   "name": "urlshortener",
   "version": "1.0.0",
   "description": "",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "image": "heroku/nodejs",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
