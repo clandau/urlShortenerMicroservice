@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const dns = require('dns');
 const cors = require('cors');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 //regex to test if the submitted url is valid
 const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
