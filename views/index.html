@@ -13,12 +13,12 @@
     <div class = 'container'>
         <h2>API: URL Shortener Microservice</h2>
 
-    <h4>Create a shortened URL, either by submitting the URL in the form below or by visiting the API endpoint at: </h4><code>GET [project-url]/api/shorturl/new/</code>
+    <h4>Create a shortened URL, either by submitting the URL in the form below or by visiting the API endpoint at: </h4><code>GET https://damp-citadel-44118.herokuapp.com/api/shorturl/new/</code>
     <p>
-    Example: <br><code>[project-url]/api/shorturl/new/https://www.google.com</code><br>
+    Example: <br><code>https://damp-citadel-44118.herokuapp.com/api/shorturl/new/https://www.google.com</code><br>
     Response: <br><code>{"original_url":"www.google.com","short_url":"1111"}</code>
 </p>
-    Example: <br><code>POST [project-url]/api/shorturl/new - https://www.google.com</code>
+    Example: <br><code>POST https://damp-citadel-44118.herokuapp.com/api/shorturl/new - https://www.google.com</code>
     <p>
     <div id='form-div'> 
     <form id='url-form' method="POST" action ='/api/shorturl/new'>
@@ -30,7 +30,7 @@
 <div>
     <h4>Example Usage:</h4>
     By visiting the output short URL:
-    <code>[project-url]/api/shorturl/8115</code> 
+    <code>https://damp-citadel-44118.herokuapp.com/api/shorturl/8115</code> 
 
     <p>You will be redirected to:
     <code>http://www.freecodecamp.com</code>
