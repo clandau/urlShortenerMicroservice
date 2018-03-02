@@ -127,6 +127,11 @@ let findShortUrl = function(urlString, done) {
       });
     };
 
+//handle page not found errors
+app.get('*', function(req, res){
+    res.sendFile(__dirname + '/views/oops.html', 404);
+    });
+
 const listener = app.listen(PORT, () => {
     console.log('You are listening on port ' + PORT)
 })

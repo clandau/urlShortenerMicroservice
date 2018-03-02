@@ -53,3 +53,12 @@ button, input, select, textarea {
     font-family: inherit;
     font-size: 75%;
 }
+
+a:link, a:visited {
+    color: #666666;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #b8ff4d;
+}
