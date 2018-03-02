@@ -43,7 +43,6 @@ let validAddress = ((addressToValidate) => {
         return address ? true : false;
     })});
 
-
 //function to create a new database entry and short url
 let createNewShortUrl = function(longUrl, done) {
     ++randomNum;
@@ -64,7 +63,6 @@ let createNewShortUrl = function(longUrl, done) {
         }
     });
 };
-
 
 app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     let enteredUrl = req.params.url;
