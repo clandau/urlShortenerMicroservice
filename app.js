@@ -43,25 +43,28 @@ let validAddress = ((addressToValidate) => {
         return address ? true : false;
     })});
 
+
 //function to create a new database entry and short url
 let createNewShortUrl = function(longUrl, done) {
     ++randomNum;
-    //make sure short_url doesn't exist
-    Url.findOne({ 'short_url': "673" }, (err, data) => {
-    // Url.findOne({ 'short_url': randomNum }, (err, data) => {
-        if(data.length) {
-            console.log('short URL in use');
-            //then what?
+    Url.findOne({'short_url' : randomNum }, (err, data) => {
+        if(err) console.log(err);
+        else if(data !== null) {
+            console.log('url exists');
+            createNewShortUrl(longUrl, (err, data) => {
+                return err ? err : data;
+            });
         }
         else {
+            console.log('unique id, adding to DB');
             let newUrlHolder = new Url({original_url: longUrl, short_url: randomNum});
             newUrlHolder.save((err, data) => {
-                if(err) done(err);
-                else done(null, data);
-            });
-            }
-        });
-    };
+            err ? done(err) : done(null, data);
+            })
+        }
+    });
+};
+
 
 app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     let enteredUrl = req.params.url;
