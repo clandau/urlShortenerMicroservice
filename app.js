@@ -40,19 +40,28 @@ const Url = mongoose.model('Url', urlSchema);
 //function to make sure that the address to shorten is valid
 let validAddress = ((addressToValidate) => {
     return urlRegex.test(addressToValidate) && dns.lookup(addressToValidate, (err, address, family) => {
-        //console.log(address);
         return address ? true : false;
     })});
 
 //function to create a new database entry and short url
 let createNewShortUrl = function(longUrl, done) {
-    let newUrlHolder = new Url({original_url: longUrl, short_url: randomNum});
     ++randomNum;
-    newUrlHolder.save((err, data) => {
-        if(err) done(err);
-        else done(null, data);
-    });
-};
+    //make sure short_url doesn't exist
+    Url.findOne({ 'short_url': "673" }, (err, data) => {
+    // Url.findOne({ 'short_url': randomNum }, (err, data) => {
+        if(data.length) {
+            console.log('short URL in use');
+            //then what?
+        }
+        else {
+            let newUrlHolder = new Url({original_url: longUrl, short_url: randomNum});
+            newUrlHolder.save((err, data) => {
+                if(err) done(err);
+                else done(null, data);
+            });
+            }
+        });
+    };
 
 app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
     let enteredUrl = req.params.url;
@@ -71,7 +80,6 @@ app.get('/api/shorturl/new/:url(*)', (req, res, next) => {
 
 //identify when someone's visiting a short url and redirect them to the requested long url site
 app.get('/api/shorturl/:shortUrl', (req, res, next) => {
-        // if(req.params.shortUrl !=='new') {
         let urlShort = req.params.shortUrl;
         let originalUrl;
         findShortUrl(urlShort, (err, data) => {
@@ -81,7 +89,6 @@ app.get('/api/shorturl/:shortUrl', (req, res, next) => {
             res.redirect(longUrl);
             }
         });
-// }
 });
 
 //parse url to get the url the user wishes to shorten
