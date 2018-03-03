@@ -15,7 +15,11 @@ dotenv.config();
 const app = express();
 app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, (err) => {
+    if(err) console.log(err);
+    else console.log('connected to db');
+});
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 const schema = mongoose.Schema;
