@@ -1,7 +1,7 @@
 {
   "name": "urlshortener",
   "version": "1.0.0",
-  "description": "",
+  "description": "A microservice for shortening URLs",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "image": "heroku/nodejs",
   "main": "app.js",
