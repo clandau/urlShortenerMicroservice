@@ -89,6 +89,9 @@ app.get('/api/shorturl/:shortUrl', (req, res, next) => {
         let originalUrl;
         findShortUrl(urlShort, (err, data) => {
             if(err) console.log(err);
+            else if(data === null) {
+                res.send({ 'error' : "invalid URL" })
+            }
             else {
             let longUrl = data;
             res.redirect(longUrl);
@@ -119,13 +122,13 @@ app.post('/api/shorturl/new/', urlEncodedParser, (req, res, next) => {
 
 //function to check for short url in database
 let findShortUrl = function(urlString, done) {
-    Url.findOne({ 'short_url': urlString }, 'original_url short_url', function (err, url) {
+    Url.findOne({ 'short_url': urlString }, 'original_url short_url', function (err, data) {
         if (err) done(err);
-        if(url === null) {
-            done(null, url);
+        if(data === null) {
+            done(null, data);
         }
         else {
-        let longUrl = url.original_url;
+        let longUrl = data.original_url;
         return done(null, longUrl);  
         }
       });
