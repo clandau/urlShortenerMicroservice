@@ -20,8 +20,6 @@ mongoose.connect(process.env.MONGODB_URI, (err) => {
     else console.log('connected to db');
 });
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error'));
 const schema = mongoose.Schema;
 
 app.use(cors({optionsSuccessStatus: 200}));
