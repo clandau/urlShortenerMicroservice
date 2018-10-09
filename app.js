@@ -22,6 +22,12 @@ mongoose.connect(process.env.MONGODB_URI, (err) => {
 
 const schema = mongoose.Schema;
 
+const urlSchema = new schema({
+    original_url: {type: String, required: true},
+    short_url: {type: String, required: true, unique: true}
+});
+const Url = mongoose.model('Url', urlSchema);
+
 app.use(cors({optionsSuccessStatus: 200}));
 
 let urlEncodedParser = bodyParser.urlencoded({ extended: false });
@@ -32,12 +38,6 @@ let randomNum = Math.floor(Math.random() * 9999);
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
-
-const urlSchema = new schema({
-    original_url: {type: String, required: true},
-    short_url: {type: String, required: true, unique: true}
-});
-const Url = mongoose.model('Url', urlSchema);
 
 //function to make sure that the address to shorten is valid
 let validAddress = ((addressToValidate) => {
@@ -57,7 +57,6 @@ let createNewShortUrl = function(longUrl, done) {
             });
         }
         else {
-            console.log('unique id, adding to DB');
             let newUrlHolder = new Url({original_url: longUrl, short_url: randomNum});
             newUrlHolder.save((err, data) => {
             err ? done(err) : done(null, data);
